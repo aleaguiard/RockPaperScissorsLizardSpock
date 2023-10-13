@@ -1,0 +1,12 @@
+h1, p, span, .images, #fight, .scores {
+    text-align: center;
+}
+
+#computer-score, #my-score {
+    display: inline-block;
+    margin: 0 20px;
+}
+body{
+    background-color: rgb(32, 31, 83);
+    color: white;
+}

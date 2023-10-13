@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piedra, papel, tijera, lagarto y Spock</title>
+    <link rel="stylesheet" href="style.css"/>
+    <script src="script.js"></script>
+</head>
+
+<body>
+        <span>Introduce tu nombre para iniciar el juego: </span>
+        <input type="text" id="name">
+        <button id="start">Empezar</button>
+        
+        <div class="scores">
+            <div id="computer-score">
+                <p>Ordenador</p>
+                <h1 id="opponent-score">0</h1>
+            </div>
+            <div id="my-score">
+                <p id="changeName"></p>
+                <h1 id="your-score">0</h1>
+            </div>
+        
+        <div class="images">
+            <input id="rock" type="image" src="images/rock.png" alt="rock" />
+            <input id="paper" type="image" src="images/paper.png" alt="paper" />
+            <input id="scissor" type="image" src="images/scissor.png" alt="scissor" />
+            <input id="lizard" type="image" src="images/lizard.png" alt="lizard" />
+            <input id="spock" type="image" src="images/spock.png" alt="spock" />
+
+        </div>
+
+        <div id="fight">
+        <img id="your-choice" src="images/rock.png">
+        <img id="opponent-choice" src="images/rock.png">
+        <p id="result">Resultado</p>
+        </div>
+
+        <button id="rules">Reglas del juego</button>
+</body>
+</html>
