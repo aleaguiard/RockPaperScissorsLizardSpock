@@ -1,3 +1,4 @@
+let site;
 let myName;
 let changeName;
 let buttonStart;
@@ -15,6 +16,7 @@ let buttonRules;
 
 
 function variableInitialization(){
+    site = document.getElementById("site");
     myName = document.getElementById("name");
     changeName = document.getElementById("changeName");
     buttonStart = document.getElementById("start"); 
@@ -34,6 +36,7 @@ function variableInitialization(){
 function addName(){
     if(myName.value.length == 0){
         myName.focus();
+        site.style.display = "none";
     }else{
         document.getElementById("changeName").textContent = myName.value;
     }
@@ -59,6 +62,29 @@ function zoomOutImage() {
     this.style.transition = "transform 0.3s";
 }
 
+function getRandomOpponentChoice() {
+    const opponentChoices = ["rock", "paper", "scissor", "lizard", "spock"];
+    let randomOpponentChoice = () => {
+        let randomIndex = Math.floor(Math.random() * opponentChoices.length);
+        return opponentChoices[randomIndex];
+    }
+    let opponentChoiceInterval = setInterval(() => {
+        opponentChoice.src = `images/${randomOpponentChoice()}.png`;
+    }, 50);
+
+    /*
+    // Detener la alternancia cuando hagas tu elección
+    yourChoice.addEventListener("click", () => {
+        clearInterval(opponentChoiceInterval);
+
+        // Simular la elección del oponente después de tu elección
+        const opponentSelectedChoice = randomOpponentChoice();
+        opponentChoice.src = `images/${opponentSelectedChoice}.png`;
+
+    });*/
+
+}
+
 function setListeners(){
     buttonStart.addEventListener("click", addName);
     buttonRules.addEventListener("click", popUpRules);
@@ -74,4 +100,5 @@ window.addEventListener("load",()=>{
     variableInitialization();
     setListeners();
     myName.focus();
+    getRandomOpponentChoice();
 });
