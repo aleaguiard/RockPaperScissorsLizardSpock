@@ -33,13 +33,38 @@ function variableInitialization(){
     buttonRules = document.getElementById("rules");
 };
 
-function addName(){
-    if(myName.value.length == 0){
-        myName.focus();
-        site.style.display = "none";
-    }else{
-        document.getElementById("changeName").textContent = myName.value;
+function starting(){
+    buttonStart.disabled = true;
+    buttonRules.disabled = true;
+    site.style.pointerEvents = "none";
+    site.style.opacity = 0.5; 
+    myName.focus(); 
+}
+
+function activeButton(){
+    if(myName.value.length >= 2){
+        buttonStart.disabled = false;
+    }else {         
+        buttonStart.disabled = true;
     }
+};
+
+function activeGame() {
+    if (buttonStart.disabled) {
+        site.style.pointerEvents = "none"; 
+        site.style.opacity = 0.5; 
+        buttonStart.style.display = "block";
+        buttonRules.style.display = "block"; 
+    } else {
+            site.style.pointerEvents = "auto";
+            site.style.opacity = 1;
+            buttonRules.disabled = false;
+            getRandomOpponentChoice();
+    }
+};
+
+function changeNames (){
+    document.getElementById("changeName").textContent = myName.value;
 };
 
 function popUpRules(){
@@ -47,46 +72,41 @@ function popUpRules(){
     popupImagen.src = "images/rulesGame.png";
     popupImagen.style.width = "100%";
     popupImagen.style.height = "100%";
-    let ventanaEmergente = window.open("", "Popup", "width=600,height=400"); // No se usa coma (,) en "width=600,height=400"
+    let ventanaEmergente = window.open("", "Popup", "width=600,height=400"); 
     ventanaEmergente.document.body.style.margin = "0";
     ventanaEmergente.document.body.appendChild(popupImagen);
 };
 
 function zoomInImage() {
-    this.style.transform = "scale(1.3)";
+    this.style.transform = "scale(1.4)";
     this.style.transition = "transform 0.3s";
-}
+};
 
 function zoomOutImage() {
     this.style.transform = "scale(1)";
     this.style.transition = "transform 0.3s";
-}
+};
 
 function getRandomOpponentChoice() {
-    const opponentChoices = ["rock", "paper", "scissor", "lizard", "spock"];
+    const opponentChoices = ["rock.png", "paper.png", "scissor.png", "lizard.png", "spock.png"];
     let randomOpponentChoice = () => {
         let randomIndex = Math.floor(Math.random() * opponentChoices.length);
         return opponentChoices[randomIndex];
     }
-    let opponentChoiceInterval = setInterval(() => {
-        opponentChoice.src = `images/${randomOpponentChoice()}.png`;
+    opponentChoiceInterval = setInterval(() => {
+        opponentChoice.src = `images/${randomOpponentChoice()}`;
     }, 50);
+};
 
-    /*
-    // Detener la alternancia cuando hagas tu elección
-    yourChoice.addEventListener("click", () => {
-        clearInterval(opponentChoiceInterval);
+function myChoice() {
+    
+};
 
-        // Simular la elección del oponente después de tu elección
-        const opponentSelectedChoice = randomOpponentChoice();
-        opponentChoice.src = `images/${opponentSelectedChoice}.png`;
-
-    });*/
-
-}
 
 function setListeners(){
-    buttonStart.addEventListener("click", addName);
+    myName.addEventListener("input", activeButton);
+    buttonStart.addEventListener("click", changeNames)
+    buttonStart.addEventListener("click", activeGame)
     buttonRules.addEventListener("click", popUpRules);
 
     const images = [rock, paper, scissor, lizard, spock];
@@ -98,7 +118,6 @@ function setListeners(){
 
 window.addEventListener("load",()=>{
     variableInitialization();
+    starting();  
     setListeners();
-    myName.focus();
-    getRandomOpponentChoice();
 });
