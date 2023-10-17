@@ -18,3 +18,8 @@ p {
 h1 {
     font-size: 200%;
 }
+
+#your-choice, #opponent-choice {
+    width: 200px;
+    height: 200px;
+}

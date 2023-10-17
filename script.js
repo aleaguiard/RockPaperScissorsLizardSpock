@@ -2,6 +2,8 @@ let site;
 let myName;
 let changeName;
 let buttonStart;
+let opponentScore = 0;
+let playerScore = 0;
 let scoreOpponent;
 let yourScore;
 let rock;
@@ -13,7 +15,7 @@ let yourChoice;
 let opponentChoice;
 let result;
 let buttonRules;
-
+let opponentInterval;
 
 function variableInitialization(){
     site = document.getElementById("site");
@@ -59,11 +61,21 @@ function activeGame() {
             site.style.pointerEvents = "auto";
             site.style.opacity = 1;
             buttonRules.disabled = false;
-            getRandomOpponentChoice();
     }
+    startRandomOpponentChoice();
+
 };
 
+function resetGame() {
+    playerScore = 0;
+    opponentScore = 0;
+    yourScore.textContent = playerScore;
+    scoreOpponent.textContent = opponentScore;
+    result.textContent = '';
+}
+
 function changeNames (){
+    resetGame();
     document.getElementById("changeName").textContent = myName.value;
 };
 
@@ -88,32 +100,79 @@ function zoomOutImage() {
 };
 
 function getRandomOpponentChoice() {
-    const opponentChoices = ["rock.png", "paper.png", "scissor.png", "lizard.png", "spock.png"];
-    let randomOpponentChoice = () => {
+    const opponentChoices = ["rock", "paper", "scissor", "lizard", "spock"];
         let randomIndex = Math.floor(Math.random() * opponentChoices.length);
         return opponentChoices[randomIndex];
-    }
-    opponentChoiceInterval = setInterval(() => {
-        opponentChoice.src = `images/${randomOpponentChoice()}`;
-    }, 50);
+    };  
+
+function startRandomOpponentChoice() {
+    opponentInterval = setInterval(() => {
+        const opponent = getRandomOpponentChoice();
+        opponentChoice.src = `images/${opponent}.png`;
+    }, 20); 
 };
 
-function myChoice() {
+function stopRandomOpponentChoice() {
+    clearInterval(opponentInterval);
+};
+
+function myChoice(choice) {
+    yourChoice.src = `images/${choice}.png`;
+    stopRandomOpponentChoice();
+    const opponent = getRandomOpponentChoice();
+    opponentChoice.src = `images/${opponent}.png`;
+    game(choice, opponent);
+    setTimeout(() => {
+        startRandomOpponentChoice();
+    }, 2000);
     
 };
 
+function game(myChoice, opponentChoice) {
+
+    const rules = {
+        rock: ["scissor", "lizard"],
+        paper: ["rock", "spock"],
+        scissor: ["paper", "lizard"],
+        lizard: ["spock", "paper"],
+        spock: ["scissor", "rock"]
+    };
+
+    if (myChoice === opponentChoice) {
+        result.textContent = "Empate!";
+
+    } else if (rules[myChoice].includes(opponentChoice)) {
+        result.textContent = "Ganaste!";
+        playerScore++;
+    } else {
+        result.textContent = "Perdiste!";
+        opponentScore++;
+    }
+
+    yourScore.textContent = playerScore;
+    scoreOpponent.textContent = opponentScore;
+
+};
 
 function setListeners(){
     myName.addEventListener("input", activeButton);
     buttonStart.addEventListener("click", changeNames)
     buttonStart.addEventListener("click", activeGame)
     buttonRules.addEventListener("click", popUpRules);
-
-    const images = [rock, paper, scissor, lizard, spock];
+    
+   const images = [rock, paper, scissor, lizard, spock];
     images.forEach((image) => {
         image.addEventListener("mouseover", zoomInImage);
         image.addEventListener("mouseout", zoomOutImage);
     });
+
+    const choiceButtons = [rock, paper, scissor, lizard, spock];
+    choiceButtons.forEach((button) => {
+        button.addEventListener("click", function() {
+            const choice = button.id;
+            myChoice(choice);
+        });
+    }); 
 };
 
 window.addEventListener("load",()=>{
