@@ -90,7 +90,7 @@ function popUpRules(){
 };
 
 function zoomInImage() {
-    this.style.transform = "scale(1.4)";
+    this.style.transform = "scale(1.2)";
     this.style.transition = "transform 0.3s";
 };
 
@@ -117,6 +117,30 @@ function stopRandomOpponentChoice() {
 };
 
 function myChoice(choice) {
+    // Restablece el estilo de todas las opciones
+    const choiceButtons = [rock, paper, scissor, lizard, spock];
+    choiceButtons.forEach((button) => {
+        button.style.boxShadow = 'none'; // Elimina el resaltado de las demás opciones
+    });
+
+    const currentChoice = document.getElementById(choice);
+    yourChoice.src = `images/${choice}.png`;
+    stopRandomOpponentChoice(); // Detiene la animación del oponente
+    const opponent = getRandomOpponentChoice();
+    opponentChoice.src = `images/${opponent}.png`;
+    game(choice, opponent);
+
+    // Resalta la elección actual
+    currentChoice.style.boxShadow = '0 0 10px yellow';
+
+    // Espera 2 segundos antes de reanudar la animación del oponente
+    setTimeout(() => {
+        startRandomOpponentChoice();
+    }, 2000); // Cambia la imagen del oponente después de 2 segundos
+}
+
+
+/*function myChoice(choice) {
     yourChoice.src = `images/${choice}.png`;
     stopRandomOpponentChoice();
     const opponent = getRandomOpponentChoice();
@@ -125,8 +149,8 @@ function myChoice(choice) {
     setTimeout(() => {
         startRandomOpponentChoice();
     }, 2000);
-    
-};
+
+};*/
 
 function game(myChoice, opponentChoice) {
 
