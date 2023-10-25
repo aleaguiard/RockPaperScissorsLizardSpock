@@ -16,6 +16,7 @@ let opponentChoice;
 let result;
 let buttonRules;
 let opponentInterval;
+let gameActive = false;
 
 function variableInitialization(){
     site = document.getElementById("site");
@@ -41,13 +42,16 @@ function starting(){
     site.style.pointerEvents = "none";
     site.style.opacity = 0.5; 
     myName.focus(); 
-}
+};
 
 function activeButton(){
     if(myName.value.length >= 2){
         buttonStart.disabled = false;
     }else {         
         buttonStart.disabled = true;
+        starting();
+        resetGame();
+        stopRandomOpponentChoice();
     }
 };
 
@@ -56,14 +60,13 @@ function activeGame() {
         site.style.pointerEvents = "none"; 
         site.style.opacity = 0.5; 
         buttonStart.style.display = "block";
-        buttonRules.style.display = "block"; 
+        buttonRules.style.display = "block";
     } else {
             site.style.pointerEvents = "auto";
             site.style.opacity = 1;
             buttonRules.disabled = false;
+            startRandomOpponentChoice();
     }
-    startRandomOpponentChoice();
-
 };
 
 function resetGame() {
@@ -72,7 +75,8 @@ function resetGame() {
     yourScore.textContent = playerScore;
     scoreOpponent.textContent = opponentScore;
     result.textContent = '';
-}
+    changeName.textContent = '';
+};
 
 function changeNames (){
     resetGame();
@@ -103,13 +107,13 @@ function getRandomOpponentChoice() {
     const opponentChoices = ["rock", "paper", "scissor", "lizard", "spock"];
         let randomIndex = Math.floor(Math.random() * opponentChoices.length);
         return opponentChoices[randomIndex];
-    };  
+};  
 
 function startRandomOpponentChoice() {
     opponentInterval = setInterval(() => {
         const opponent = getRandomOpponentChoice();
         opponentChoice.src = `images/${opponent}.png`;
-    }, 20); 
+    }, 10); 
 };
 
 function stopRandomOpponentChoice() {
@@ -117,40 +121,34 @@ function stopRandomOpponentChoice() {
 };
 
 function myChoice(choice) {
-    // Restablece el estilo de todas las opciones
+
+    if (gameActive) {
+        return;
+    }
+    gameActive = true;
+
     const choiceButtons = [rock, paper, scissor, lizard, spock];
     choiceButtons.forEach((button) => {
-        button.style.boxShadow = 'none'; // Elimina el resaltado de las demás opciones
+        button.style.boxShadow = 'none'; 
     });
 
     const currentChoice = document.getElementById(choice);
     yourChoice.src = `images/${choice}.png`;
-    stopRandomOpponentChoice(); // Detiene la animación del oponente
-    const opponent = getRandomOpponentChoice();
-    opponentChoice.src = `images/${opponent}.png`;
-    game(choice, opponent);
-
-    // Resalta la elección actual
-    currentChoice.style.boxShadow = '0 0 10px yellow';
-
-    // Espera 2 segundos antes de reanudar la animación del oponente
-    setTimeout(() => {
-        startRandomOpponentChoice();
-    }, 2000); // Cambia la imagen del oponente después de 2 segundos
-}
-
-
-/*function myChoice(choice) {
-    yourChoice.src = `images/${choice}.png`;
     stopRandomOpponentChoice();
+    
     const opponent = getRandomOpponentChoice();
     opponentChoice.src = `images/${opponent}.png`;
     game(choice, opponent);
-    setTimeout(() => {
-        startRandomOpponentChoice();
-    }, 2000);
 
-};*/
+    currentChoice.style.boxShadow = '0 0 10px yellow';
+    
+    setTimeout(() => {
+        currentChoice.style.boxShadow = "none";
+        startRandomOpponentChoice();
+        gameActive = false;
+
+    }, 500); 
+};
 
 function game(myChoice, opponentChoice) {
 
@@ -175,15 +173,14 @@ function game(myChoice, opponentChoice) {
 
     yourScore.textContent = playerScore;
     scoreOpponent.textContent = opponentScore;
-
 };
 
 function setListeners(){
     myName.addEventListener("input", activeButton);
-    buttonStart.addEventListener("click", changeNames)
-    buttonStart.addEventListener("click", activeGame)
+    buttonStart.addEventListener("click", changeNames);
+    buttonStart.addEventListener("click", activeGame);
     buttonRules.addEventListener("click", popUpRules);
-    
+
    const images = [rock, paper, scissor, lizard, spock];
     images.forEach((image) => {
         image.addEventListener("mouseover", zoomInImage);
