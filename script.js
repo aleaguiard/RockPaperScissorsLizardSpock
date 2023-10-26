@@ -76,7 +76,7 @@ function resetGame() {
     yourScore.textContent = playerScore;
     scoreOpponent.textContent = opponentScore;
     result.textContent = '';
-    changeName.textContent = '';
+    changeName.textContent = 'Nombre';
 };
 
 function changeNames (){
