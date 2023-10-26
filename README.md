@@ -1,7 +1,8 @@
 # Juego de Piedra, Papel, Tijera, Lagarto, Spock
 Este repositorio contiene un juego en línea de "Piedra, Papel, Tijera, Lagarto, Spock" desarrollado con HTML, CSS y JavaScript. El juego está basado en las reglas populares de la serie de televisión "The Big Bang Theory" y ofrece una experiencia interactiva simple pero divertida.
 
-## Enlace: https://aleaguiard.github.io/html-css-js-game/
+## Enlace
+https://aleaguiard.github.io/html-css-js-game/
 
 ## Características
 
