@@ -65,6 +65,7 @@ function activeGame() {
             site.style.pointerEvents = "auto";
             site.style.opacity = 1;
             buttonRules.disabled = false;
+            buttonStart.disabled = true;
             startRandomOpponentChoice();
     }
 };
